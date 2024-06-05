@@ -123,9 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'providers' => [
-        // ...other declared providers
-        App\Providers\RepositoryServiceProvider::class,
-    ],
+  
 
 ];
