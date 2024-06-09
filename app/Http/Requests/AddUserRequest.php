@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 class AddUserRequest extends FormRequest
 {
     /**
@@ -22,7 +23,22 @@ class AddUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|confirmed'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $error_text="";
+        foreach ($validator->errors()->all() as $error) {
+            $error_text .= $error;
+        }
+        throw new HttpResponseException(response()->json([
+            'result' => null,
+            'statusCode' => config('httpstatus.badRequest'),
+            'message' => $error_text,
+        ], config('httpstatus.badRequest')));
     }
 }

@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\UserRepositoryInterface;
-use App\Repositories\UserRepository;
 use App\Services\UserService;
-
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\AddUserRequest;
+
 class UsersController extends Controller
 {
     public function __construct( protected UserService $userService) 
@@ -25,17 +22,11 @@ class UsersController extends Controller
      {
         return view('users.create');
      }
-     public function store(Request $request)
+     public function store(AddUserRequest $request)
      {
-        $data = $request->validate([
-             'name' => 'required',
-             'email' => 'required|unique:users,email',
-             'password' => 'required|confirmed'
-         ]);
  
-        $user = $this->userService->create($data);
+       $this->userService->create($request->all());
  
-        return redirect()->route('users.show', $user->id);
      }
      public function show($id)
      {

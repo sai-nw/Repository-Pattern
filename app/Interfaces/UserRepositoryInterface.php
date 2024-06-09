@@ -6,7 +6,6 @@ use App\Models\User;
 
 interface UserRepositoryInterface 
 {    
-    public function setName();
     public function all();
     public function create(array $data);
     public function update(array $data, $id);

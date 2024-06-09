@@ -7,31 +7,28 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface 
 {
-    public function getAllUsers() 
+    public function all() 
     {
-
-        // MailService::phpMailer("aung@gmail.com", "otp", "Otp for verificaton");
-
         return User::all();
     }
 
-    public function getUserById(User $user) 
+    public function find($id) 
     {
-        return $user;
+        User::where('id',$id)->delete();
     }
 
-    public function deleteUser(User $user) 
+    public function delete($id) 
     {
-        $user->delete();
+        User::where('id',$id)->delete();
     }
 
-    public function createUser(array $attributes) 
+    public function create(array $attributes) 
     {
         return User::create($attributes);
     }
 
-    public function updateUser(User $user, array $attributes) 
+    public function update($attributes, $id) 
     {
-        return $user->update($attributes);
+        return  User::where('id',$id)->update($attributes);
     }
 }
