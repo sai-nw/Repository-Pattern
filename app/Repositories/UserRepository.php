@@ -2,33 +2,37 @@
 
 namespace App\Repositories;
 
-use App\Contract\UserRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use App\Services\MailService;
 
 class UserRepository implements UserRepositoryInterface 
 {
-    public function getAllUsers() 
+    public function setName() 
+    {
+        return "setNameFromRepo";
+    }
+    public function all()
     {
         return User::all();
     }
-
-    public function getUserById(User $user) 
+    public function create(array $data)
     {
+        return User::create($data);
+    }
+    public function update(array $data, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($data);
         return $user;
     }
-
-    public function deleteUser(User $user) 
+    public function delete($id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
     }
-
-    public function createUser(array $attributes) 
+    public function find($id)
     {
-        return User::create($attributes);
-    }
-
-    public function updateUser(User $user, array $attributes) 
-    {
-        return $user->update($attributes);
+        return User::findOrFail($id);
     }
 }
